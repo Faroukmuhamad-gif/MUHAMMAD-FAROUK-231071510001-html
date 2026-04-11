@@ -3,229 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulir Data & Transaksi - GitHub Edition</title>
+    <title>Form to Google Sheets</title>
     <style>
-        /* CSS: Tampilan Profesional & Modern */
-        :root {
-            --primary: #2563eb;
-            --secondary: #64748b;
-            --success: #22c55e;
-            --bg: #f1f5f9;
-            --white: #ffffff;
-            --border: #e2e8f0;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: var(--bg);
-            color: #1e293b;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .form-card {
-            background: var(--white);
-            width: 100%;
-            max-width: 850px;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
-        }
-
-        h2 { color: var(--primary); margin-bottom: 20px; font-size: 1.25rem; display: flex; align-items: center; }
-        h2::before { content: "•"; margin-right: 10px; color: var(--primary); }
-
-        .section-box {
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .full-width { grid-column: span 2; }
-
-        .input-group { display: flex; flex-direction: column; gap: 8px; }
-
-        label { font-weight: 600; font-size: 0.9rem; color: var(--secondary); }
-
-        input, select, textarea {
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-
-        /* Button Toggle Style untuk Jenis Transaksi */
-        .btn-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-check { display: none; }
-        .btn-label {
-            flex: 1;
-            padding: 12px;
-            text-align: center;
-            border: 2px solid var(--border);
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .btn-check:checked + .btn-label {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--success);
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: opacity 0.2s;
-        }
-
-        .submit-btn:hover { opacity: 0.9; }
-
-        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
+        /* CSS yang sama seperti sebelumnya (Diringkas untuk efisiensi) */
+        body { font-family: sans-serif; background: #f4f7f6; padding: 20px; }
+        .container { max-width: 700px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { color: #2563eb; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+        label { font-weight: bold; margin-bottom: 5px; }
+        input, select, textarea { padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .btn-submit { width: 100%; padding: 15px; background: #22c55e; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        .loading { display: none; text-align: center; color: blue; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="form-card">
-    <header>
-        <h1>Formulir Input Data Terintegrasi</h1>
-        <p>Kelola data demografi, perbankan, dan transaksi dalam satu pintu.</p>
-    </header>
-
-    <form id="mainForm">
-        <div class="section-box">
-            <h2>Data Demografi</h2>
-            <div class="grid">
-                <div class="input-group full-width">
-                    <label>Nama Pengguna</label>
-                    <input type="text" name="nama" placeholder="Masukkan nama lengkap..." required>
-                </div>
-                <div class="input-group">
-                    <label>Tanggal Lahir</label>
-                    <input type="date" name="tgl_lahir" required>
-                </div>
-                <div class="input-group">
-                    <label>Pendidikan (Cari/Pilih)</label>
-                    <input list="edulist" name="pendidikan" placeholder="Pilih tingkat pendidikan">
-                    <datalist id="edulist">
-                        <option value="SD/Sederajat">
-                        <option value="SMP/Sederajat">
-                        <option value="SMA/SMK/Sederajat">
-                        <option value="Diploma (D3)">
-                        <option value="Sarjana (S1)">
-                        <option value="Magister (S2)">
-                        <option value="Doktor (S3)">
-                    </datalist>
-                </div>
-                <div class="input-group">
-                    <label>No. Telepon</label>
-                    <input type="tel" name="telp" placeholder="08123xxx">
-                </div>
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" name="email" placeholder="nama@email.com">
-                </div>
-                <div class="input-group full-width">
-                    <label>Alamat</label>
-                    <textarea name="alamat" rows="2" placeholder="Alamat domisili lengkap"></textarea>
-                </div>
-            </div>
+<div class="container">
+    <h2>Formulir Data Terpadu</h2>
+    <form id="my-form">
+        <div class="form-group">
+            <label>Nama Pengguna</label>
+            <input type="text" name="nama" required>
+        </div>
+        <div class="form-group">
+            <label>Tanggal Lahir</label>
+            <input type="date" name="tgl_lahir" required>
+        </div>
+        <div class="form-group">
+            <label>Pendidikan</label>
+            <input list="edulist" name="pendidikan" placeholder="Cari...">
+            <datalist id="edulist">
+                <option value="SMA"> <option value="S1"> <option value="S2">
+            </datalist>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email">
         </div>
 
-        <div class="section-box">
-            <h2>Data Bank</h2>
-            <div class="grid">
-                <div class="input-group">
-                    <label>Nama Bank (Cari/Pilih)</label>
-                    <input list="banklist" name="nama_bank" placeholder="Ketik nama bank...">
-                    <datalist id="banklist">
-                        <option value="BCA - Bank Central Asia">
-                        <option value="Mandiri - Bank Mandiri">
-                        <option value="BNI - Bank Negara Indonesia">
-                        <option value="BRI - Bank Rakyat Indonesia">
-                        <option value="BSI - Bank Syariah Indonesia">
-                        <option value="CIMB Niaga">
-                        <option value="Danamon">
-                    </datalist>
-                </div>
-                <div class="input-group">
-                    <label>Nomor Rekening</label>
-                    <input type="number" name="no_rek" placeholder="Hanya angka">
-                </div>
-            </div>
+        <h3>Data Bank</h3>
+        <div class="form-group">
+            <label>Nama Bank</label>
+            <input list="banklist" name="nama_bank">
+            <datalist id="banklist">
+                <option value="BCA"> <option value="MANDIRI"> <option value="BRI">
+            </datalist>
+        </div>
+        <div class="form-group">
+            <label>No Rekening</label>
+            <input type="number" name="no_rek">
         </div>
 
-        <div class="section-box">
-            <h2>Data Transaksi Keuangan</h2>
-            <div class="grid">
-                <div class="input-group">
-                    <label>Tanggal Transaksi</label>
-                    <input type="date" name="tgl_transaksi" required>
-                </div>
-                <div class="input-group">
-                    <label>Jenis Transaksi (Pilih Salah Satu)</label>
-                    <div class="btn-group">
-                        <input type="radio" name="jenis_trans" id="debet" value="Debet" class="btn-check" checked>
-                        <label for="debet" class="btn-label">DEBET</label>
-                        
-                        <input type="radio" name="jenis_trans" id="kredit" value="Kredit" class="btn-check">
-                        <label for="kredit" class="btn-label">KREDIT</label>
-                    </div>
-                </div>
-                <div class="input-group full-width">
-                    <label>Uraian Transaksi</label>
-                    <input type="text" name="uraian" placeholder="Contoh: Pembelian stok barang">
-                </div>
-                <div class="input-group">
-                    <label>Nominal Debet (Rp)</label>
-                    <input type="number" name="nominal_debet" value="0">
-                </div>
-                <div class="input-group">
-                    <label>Nominal Kredit (Rp)</label>
-                    <input type="number" name="nominal_kredit" value="0">
-                </div>
-            </div>
+        <h3>Transaksi</h3>
+        <div class="form-group">
+            <label>Uraian</label>
+            <input type="text" name="uraian">
+        </div>
+        <div class="form-group">
+            <label>Debet (Rp)</label>
+            <input type="number" name="nominal_debet" value="0">
+        </div>
+        <div class="form-group">
+            <label>Kredit (Rp)</label>
+            <input type="number" name="nominal_kredit" value="0">
         </div>
 
-        <button type="submit" class="submit-btn">PROSES DATA</button>
+        <button type="submit" class="btn-submit" id="submit-btn">KIRIM KE SPREADSHEET</button>
+        <div id="loader" class="loading">Sedang mengirim data... Mohon tunggu.</div>
     </form>
 </div>
 
 <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwkhWeJsAZNT0SmVmZTWndj-wCOcb6hDY2qzPg8UrF9D98PWVnnNePMM2ZBGkODS6Ah0Q/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzPd2xvNW-YRt_TVwk-m0z3O4WHMAR-VbM2of1Z4k9iGVqBX25mplSsms1sBo4gmOWdNg/exec';
     const form = document.getElementById('my-form');
     const btn = document.getElementById('submit-btn');
     const loader = document.getElementById('loader');
