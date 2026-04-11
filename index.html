@@ -221,22 +221,33 @@
         </div>
 
         <button type="submit" class="submit-btn">PROSES DATA</button>
-    <form
-  action="https://https://formspree.io/f/xeepyazy"
-  method="POST"
-    >
     </form>
 </div>
 
 <script>
-    // Logika sederhana untuk melihat hasil input di Console browser (F12)
-    document.getElementById('mainForm').onsubmit = function(e) {
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzzuCcAfFXMT8JmNg6IdKa9WOqzgjsLEY63Mzo7veqJrhNaDyl_467qAzCjBBHmvoUIVA/exec';
+    const form = document.getElementById('my-form');
+    const btn = document.getElementById('submit-btn');
+    const loader = document.getElementById('loader');
+
+    form.addEventListener('submit', e => {
         e.preventDefault();
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
-        console.log("Data Berhasil Dikumpulkan:", data);
-        alert("Data berhasil diproses! Silakan cek Console (F12) untuk melihat hasilnya.");
-    };
+        btn.style.display = 'none';
+        loader.style.display = 'block';
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+                btn.style.display = 'block';
+                loader.style.display = 'none';
+                alert('Berhasil! Data sudah masuk ke Google Sheets.');
+                form.reset();
+            })
+            .catch(error => {
+                btn.style.display = 'block';
+                loader.style.display = 'none';
+                alert('Error!', error.message);
+            });
+    });
 </script>
 
 </body>
