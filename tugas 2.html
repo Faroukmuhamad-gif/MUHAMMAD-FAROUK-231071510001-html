@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form to Google Sheets</title>
     <style>
-        /* CSS yang sama seperti sebelumnya (Diringkas untuk efisiensi) */
         body { font-family: sans-serif; background: #f4f7f6; padding: 20px; }
         .container { max-width: 700px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         h2 { color: #2563eb; border-bottom: 2px solid #eee; padding-bottom: 10px; }
@@ -39,6 +38,11 @@
         <div class="form-group">
             <label>Email</label>
             <input type="email" name="email">
+        </div>
+        
+        <div class="form-group">
+            <label>Nomor Telepon</label>
+            <input type="tel" name="no_telepon" placeholder="Contoh: 081234567890" required>
         </div>
 
         <h3>Data Bank</h3>
@@ -74,7 +78,7 @@
 </div>
 
 <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzPd2xvNW-YRt_TVwk-m0z3O4WHMAR-VbM2of1Z4k9iGVqBX25mplSsms1sBo4gmOWdNg/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzHRv0YTyUQ7y8Isu1tBf5BVMboiFCy4ZwW2-2hL4Yhjt0Cb4iw-wplANBAOWvG-BRQ_g/exec';
     const form = document.getElementById('my-form');
     const btn = document.getElementById('submit-btn');
     const loader = document.getElementById('loader');
