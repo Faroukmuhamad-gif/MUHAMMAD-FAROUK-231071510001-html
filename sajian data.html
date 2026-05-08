@@ -1,1 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Sajian Data</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <nav>
+        <a href="#">Beranda</a>
+        <a href="#main-dashboard">Laporan Utama</a>
+        <a href="#summary">Ringkasan Metrik</a>
+        <a href="#archive">Arsip Laporan</a>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Dashboard Analisis Performa</h1>
+            <p>Periode Laporan: <strong>Januari - Mei 2026</strong></p>
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+        </header>
+
+        <section id="main-dashboard">
+            <iframe width="100%" height="600" src="https://lookerstudio.google.com/embed/reporting/your-report-id" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </section>
+
+        <section id="summary">
+            <h2 style="margin-top: 40px;">Key Performance Indicators (KPI)</h2>
+            <table>
+                <tr>
+                    <td><strong>Total Traffic</strong></td>
+                    <td>1.240.500 Kunjungan</td>
+                    <td style="color: green;">↑ 12%</td>
+                </tr>
+                <tr>
+                    <td><strong>Conversion Rate</strong></td>
+                    <td>3.45%</td>
+                    <td style="color: red;">↓ 0.5%</td>
+                </tr>
+                <tr>
+                    <td><strong>Revenue</strong></td>
+                    <td>Rp 450.000.000</td>
+                    <td style="color: green;">↑ 8%</td>
+                </tr>
+                <tr>
+                    <td><strong>Sumber Data Utama</strong></td>
+                    <td colspan="2">Google Analytics 4 & PostgreSQL</td>
+                </tr>
+            </table>
+        </section>
+
+        <section id="archive">
+            <h2 style="margin-top: 40px;">Tangkapan Layar Insight Seminggu Terakhir</h2>
+            <div class="gallery">
+                <img src="https://via.placeholder.com/400x250?text=Chart+Trend" alt="Trend Data">
+                <img src="https://via.placeholder.com/400x250?text=Demografi+User" alt="Demografi">
+                <img src="https://via.placeholder.com/400x250?text=Channel+Performa" alt="Channel">
+            </div>
+        </section>
+
+        <footer style="margin-top: 50px; font-size: 0.9em; color: #666;">
+            <blockquote>
+                *Data diperbarui secara otomatis setiap 24 jam melalui sinkronisasi cloud.
+            </blockquote>
+        </footer>
+    </div>
+
+</body>
+</html>
