@@ -5,37 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Sajian Data</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Tambahan CSS agar tampilan lebih rapi jika style.css belum lengkap */
+        .dashboard-card {
+            margin-bottom: 30px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .dashboard-card h2 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #74ebd5;
+            display: inline-block;
+        }
+        iframe {
+            display: block;
+            border: 0;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
 
     <nav>
-        <a href="sajian data.html">sajian data tugas 3</a>
-        <a href="sajian data tugas 4.html">sajian data tugas 4</a>
+        <a href="sajian data.html">Sajian Data Tugas 3</a>
+        <a href="sajian data tugas 4.html">Sajian Data Tugas 4</a>
         <a href="index.html">HOME</a>
     </nav>
 
     <div class="container">
         <header>
-            <h1>Dashboard Analisis tugas 4 </h1>
+            <h1>Dashboard Analisis Tugas 4</h1>
             <p>Periode Laporan: <strong>2026</strong></p>
             <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
         </header>
 
-        <section id="main-dashboard">
-           <iframe 
+        <section class="dashboard-card">
+            <h2>Visualisasi Data & Grafik</h2>
+            <iframe 
                 width="100%" 
                 height="600" 
                 src="https://datastudio.google.com/embed/reporting/ef871d06-a892-49f6-b2d3-32a82546e372/page/page_12345" 
-                frameborder="0" 
-                style="border:0; border-radius: 10px;" 
                 allowfullscreen 
                 sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
             </iframe>
         </section>
 
+        <section class="dashboard-card">
+            <h2>Detail Data Respon (Spreadsheet)</h2>
+            <iframe 
+                width="100%" 
+                height="500" 
+                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS7_3aCYsT6TsH7liBKCO47C7IRts46dZKZeSdTkYOk3YtHoTTLtFMPw1Bjlwcb0LlQP6RHg2h3lHPU/pubhtml?widget=true&amp;headers=false">
+            </iframe>
+        </section>
+
         <footer style="margin-top: 50px; font-size: 0.9em; color: #666;">
             <blockquote style="border-left: 4px solid #74ebd5; padding-left: 15px; text-align: left;">
-                *Data diperbarui secara otomatis setiap 24 jam melalui sinkronisasi cloud database.
+                *Data diperbarui secara otomatis melalui sinkronisasi cloud database.
             </blockquote>
         </footer>
     </div>
