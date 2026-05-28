@@ -3,532 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Profil KUB Nelayan</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <title>Dashboard Profil KUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ==========================================================================
-           RESET & BASE STYLES
-           ========================================================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f0f4f8;
-            color: #1e293b;
-        }
-
-        .dashboard-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* ==========================================================================
-           SIDEBAR STYLES (Tema Biru Laut)
-           ========================================================================== */
-        .sidebar {
-            width: 260px;
-            background-color: #0f172a;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            height: 100vh;
-            z-index: 100;
-            border-right: 1px solid #1e293b;
-        }
-
-        .sidebar-brand {
-            padding: 24px;
-            background-color: #020617;
-            text-align: center;
-        }
-
-        .sidebar-brand h2 {
-            font-size: 20px;
-            font-weight: 600;
-            color: #38bdf8; /* Biru Cerah khas laut */
-        }
-
-        .sidebar-brand p {
-            font-size: 11px;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
-        }
-
-        .sidebar-menu {
-            flex: 1;
-            padding: 20px 0;
-        }
-
-        .sidebar-menu ul {
-            list-style: none;
-        }
-
-        .sidebar-menu ul li a {
-            display: flex;
-            align-items: center;
-            padding: 14px 24px;
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .sidebar-menu ul li a i {
-            margin-right: 12px;
-            font-style: normal;
-        }
-
-        .sidebar-menu ul li a:hover, 
-        .sidebar-menu ul li a.active {
-            background-color: #1e293b;
-            color: #fff;
-            border-left: 4px solid #38bdf8;
-        }
-
-        .sidebar-footer {
-            padding: 15px;
-            text-align: center;
-            background-color: #020617;
-            font-size: 12px;
-            color: #475569;
-        }
-
-        /* ==========================================================================
-           MAIN CONTENT STYLES
-           ========================================================================== */
-        .main-content {
-            margin-left: 260px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .main-header {
-            background-color: #fff;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .header-title h1 {
-            font-size: 24px;
-            color: #0f172a;
-            font-weight: 600;
-        }
-
-        .header-title p {
-            font-size: 14px;
-            color: #64748b;
-            margin-top: 2px;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .user-name {
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background-color: #38bdf8;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .content-body {
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        /* ==========================================================================
-           SECTION LOGIC & NAVIGATION ANIMATION
-           ========================================================================== */
-        .content-section {
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Card Component */
-        .card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.02);
-            border: 1px solid #e2e8f0;
-            overflow: hidden;
-        }
-
-        .card-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid #e2e8f0;
-            background-color: #f8fafc;
-        }
-
-        .card-header h2 {
-            font-size: 18px;
-            color: #0f172a;
-            font-weight: 600;
-        }
-
-        .card-content {
-            padding: 24px;
-            line-height: 1.7;
-            color: #334155;
-        }
-
-        .card-content p {
-            margin-bottom: 15px;
-        }
-
-        /* ==========================================================================
-           DATA STYLING COMPONENTS
-           ========================================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f7f6; color: #333; }
+        .dashboard { display: flex; min-height: 100vh; }
         
-        /* Data Dasar List */
-        .table-info {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table-info td {
-            padding: 14px 0;
-            border-bottom: 1px solid #f1f5f9;
-            font-size: 15px;
-            vertical-align: top;
-        }
-
-        .table-info td.label {
-            width: 240px;
-            font-weight: 600;
-            color: #0f172a;
-        }
-
-        /* Data Anggota Table */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        .data-table th, .data-table td {
-            padding: 14px 16px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .data-table th {
-            background-color: #f8fafc;
-            color: #64748b;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .data-table td {
-            font-size: 14px;
-        }
-
-        /* Badges */
-        .badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            display: inline-block;
-        }
-
-        .badge-marine {
-            background-color: #e0f2fe;
-            color: #0369a1;
-        }
-
-        /* Grid Komoditas Nelayan */
-        .grid-komoditas {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-        }
-
-        .komoditas-item {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 20px;
-            transition: all 0.2s ease;
-        }
-
-        .komoditas-item:hover {
-            transform: translateY(-4px);
-            border-color: #38bdf8;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-        }
-
-        .komoditas-item h3 {
-            font-size: 17px;
-            color: #0f172a;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .komoditas-item p {
-            font-size: 13px;
-            color: #64748b;
-            margin-bottom: 14px;
-        }
-
-        .stock-info {
-            font-size: 12px;
-            font-weight: 600;
-            color: #0284c7;
-            background-color: #e0f2fe;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        /* ==========================================================================
-           RESPONSIVE BREAKPOINTS
-           ========================================================================== */
-        @media (max-width: 768px) {
-            .dashboard-container { flex-direction: column; }
-            .sidebar { position: relative; width: 100%; height: auto; }
-            .main-content { margin-left: 0; }
-            .main-header { padding: 20px; flex-direction: column; align-items: flex-start; gap: 15px; }
-            .content-body { padding: 20px; }
-            .table-info tr { display: flex; flex-direction: column; padding: 10px 0; }
-            .table-info td.label { width: 100%; }
-        }
+        /* Sidebar */
+        .sidebar { width: 250px; background-color: #2c3e50; color: #ecf0f1; position: fixed; height: 100%; }
+        .brand { padding: 20px; background-color: #1a252f; text-align: center; }
+        .brand h2 { color: #1abc9c; font-size: 20px; }
+        .nav-menu { list-style: none; padding-top: 20px; }
+        .nav-menu li a { display: block; padding: 15px 20px; color: #bdc3c7; text-decoration: none; transition: 0.3s; cursor: pointer; }
+        .nav-menu li a:hover, .nav-menu li a.active { background-color: #34495e; color: #fff; border-left: 4px solid #1abc9c; }
+        
+        /* Main Content */
+        .main-content { margin-left: 250px; flex: 1; padding: 30px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px solid #e0e0e0; }
+        .card { background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        /* Section Logic */
+        .content-section { display: none; animation: fadeIn 0.4s; }
+        .content-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Tables & Typography */
+        h3 { margin-bottom: 15px; color: #2c3e50; }
+        p { line-height: 1.6; margin-bottom: 15px; color: #555; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        table, th, td { border: 1px solid #ddd; }
+        th, td { padding: 12px; text-align: left; }
+        th { background-color: #f8f9fa; color: #333; }
+        .badge { padding: 5px 10px; background: #27ae60; color: white; border-radius: 15px; font-size: 12px; }
     </style>
 </head>
 <body>
 
-    <div class="dashboard-container">
+    <div class="dashboard">
         <aside class="sidebar">
-            <div class="sidebar-brand">
-                <h2>KUB Putra Samudra</h2>
-                <p>Kelompok Usaha Nelayan</p>
+            <div class="brand">
+                <h2>Portal KUB</h2>
+                <p>Sistem Informasi Kelompok</p>
             </div>
-            <nav class="sidebar-menu">
-                <ul>
-                    <li><a href="#sejarah" class="nav-link active"><i>🌊</i> Sejarah Kelompok</a></li>
-                    <li><a href="#data-dasar" class="nav-link"><i>📊</i> Data Dasar Kelompok</a></li>
-                    <li><a href="#data-anggota" class="nav-link"><i>👥</i> Data Anggota Kelompok</a></li>
-                    <li><a href="#data-komoditas" class="nav-link"><i>🐟</i> Data Komoditas Kelompok</a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <p>v1.0 © 2026</p>
-            </div>
+            <ul class="nav-menu">
+                <li><a href="#sejarah" class="nav-link active">Sejarah Kelompok</a></li>
+                <li><a href="#data-dasar" class="nav-link">Data Dasar</a></li>
+                <li><a href="#data-anggota" class="nav-link">Data Anggota</a></li>
+                <li><a href="#data-komoditas" class="nav-link">Data Komoditas</a></li>
+            </ul>
         </aside>
 
         <main class="main-content">
-            <header class="main-header">
-                <div class="header-title">
-                    <h1 id="page-title">Sejarah Kelompok</h1>
-                    <p>Panel pusat informasi dan tata kelola statistik KUB Nelayan.</p>
-                </div>
-                <div class="user-profile">
-                    <span class="user-name">Ketua KUB</span>
-                    <div class="user-avatar">N</div>
-                </div>
-            </header>
-
-            <div class="content-body">
-                
-                <section id="sejarah" class="card content-section active">
-                    <div class="card-header">
-                        <h2>Sejarah Kelompok</h2>
-                    </div>
-                    <div class="card-content">
-                        <p><strong>KUB Putra Samudra</strong> resmi dibentuk pada 14 Agustus 2021 di kawasan pesisir Desa Pantai Makmur. Kelompok ini lahir dari kesadaran 12 nelayan tradisional yang ingin memutus rantai ketergantungan modal pada tengkulak serta meningkatkan efisiensi operasional melaut.</p>
-                        <p>Dengan semangat gotong royong, kelompok ini mulai mengumpulkan kas bersama untuk pengadaan alat tangkap ramah lingkungan dan perbaikan mesin perahu penangkap ikan. Pada tahun 2023, KUB ini mendapatkan pembinaan formal dari Dinas Kelautan dan Perikanan setempat, yang membantu memodernisasi sistem penyimpanan hasil tangkap menggunakan teknologi *cold storage* berbasis komunitas.</p>
-                    </div>
-                </section>
-
-                <section id="data-dasar" class="card content-section">
-                    <div class="card-header">
-                        <h2>Data Dasar Kelompok</h2>
-                    </div>
-                    <div class="card-content">
-                        <table class="table-info">
-                            <tr>
-                                <td class="label">Nama Kelompok Nelayan</td>
-                                <td>: KUB Putra Samudra</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Nomor Pengukuhan NIB</td>
-                                <td>: 9120304561234</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Jenis KUB Usaha</td>
-                                <td>: Perikanan Tangkap & Distribusi Laut</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Wilayah Pengelolaan (WPPNRI)</td>
-                                <td>: WPP 712 - Laut Jawa</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Alamat Dermaga / Sekretariat</td>
-                                <td>: Kompleks Pasar Ikan Higienis, Blok B No. 4, Pesisir Utara</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Jumlah Armada Perahu</td>
-                                <td>: 8 Unit Kapal Motor (&lt; 10 GT)</td>
-                            </tr>
-                            <tr>
-                                <td class="label">Status Keaktifan Dinas</td>
-                                <td>: <span class="badge badge-marine">Terverifikasi Aktif</span></td>
-                            </tr>
-                        </table>
-                    </div>
-                </section>
-
-                <section id="data-anggota" class="card content-section">
-                    <div class="card-header">
-                        <h2>Data Anggota Kelompok</h2>
-                    </div>
-                    <div class="card-content">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Nelayan</th>
-                                    <th>Peran / Jabatan</th>
-                                    <th>Keahlian / Alat Tangkap</th>
-                                    <th>Status Operasional</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Saharuddin Jaelani</td>
-                                    <td>Ketua Kelompok / Nahkoda Utama</td>
-                                    <td>Gill Net (Jaring Insang)</td>
-                                    <td><span class="badge badge-marine">Melaut</span></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Mansyur Bahari</td>
-                                    <td>Sekretaris / Pengawas Armada</td>
-                                    <td>Rawai Dasar (Longline)</td>
-                                    <td><span class="badge badge-marine">Dermaga</span></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Dedi Kusnandar</td>
-                                    <td>Bendahara / Manajemen Logistik</td>
-                                    <td>Teknis Mesin & Navigasi</td>
-                                    <td><span class="badge badge-marine">Dermaga</span></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Aris Munandar</td>
-                                    <td>Anggota / Juru Mudi Kapal 02</td>
-                                    <td>Bubu Lipat (Perangkap Rajungan)</td>
-                                    <td><span class="badge badge-marine">Melaut</span></td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Herman Sulistyo</td>
-                                    <td>Anggota / Kepala Kamar Mesin</td>
-                                    <td>Perawatan Motor Tempel</td>
-                                    <td><span class="badge badge-marine">Melaut</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-
-                <section id="data-komoditas" class="card content-section">
-                    <div class="card-header">
-                        <h2>Data Komoditas Kelompok</h2>
-                    </div>
-                    <div class="card-content grid-komoditas">
-                        <div class="komoditas-item">
-                            <h3>Ikan Kembung <span>🐟</span></h3>
-                            <p>Tangkapan utama musiman menggunakan jaring lingkar, kualitas segar premium tanpa pengawet kimia.</p>
-                            <span class="stock-info">Rata-rata: 2.5 Ton / Bulan</span>
-                        </div>
-                        <div class="komoditas-item">
-                            <h3>Cumi-Cumi Pantai <span>🦑</span></h3>
-                            <p>Hasil tangkap malam hari menggunakan alat bantu lampu (light fishing). Target serapan pasar restoran lokal.</p>
-                            <span class="stock-info">Rata-rata: 800 Kg / Bulan</span>
-                        </div>
-                        <div class="komoditas-item">
-                            <h3>Rajungan Segar <span>🦀</span></h3>
-                            <p>Komoditas ekspor bernilai tinggi, ditangkap menggunakan bubu ramah lingkungan di area karang dangkal.</p>
-                            <span class="stock-info">Rata-rata: 450 Kg / Bulan</span>
-                        </div>
-                        <div class="komoditas-item">
-                            <h3>Ikan Tongkol <span>🐟</span></h3>
-                            <p>Komoditas pelagis besar penunjang industri pengolahan ikan asin dan pindang di desa binaan sekitar.</p>
-                            <span class="stock-info">Rata-rata: 1.8 Ton / Bulan</span>
-                        </div>
-                    </div>
-                </section>
-
+            <div class="header">
+                <h1 id="page-title">Sejarah Kelompok</h1>
             </div>
+
+            <section id="sejarah" class="card content-section active">
+                <h3>Riwayat Pembentukan</h3>
+                <p>KUB dibentuk untuk menghimpun potensi ekonomi masyarakat desa, meningkatkan posisi tawar, dan memperluas jaringan pasar melalui kolaborasi komoditas lokal.</p>
+            </section>
+
+            <section id="data-dasar" class="card content-section">
+                <h3>Informasi Umum</h3>
+                <table>
+                    <tr><th>Nama KUB</th><td>KUB Sejahtera Bersama</td></tr>
+                    <tr><th>Tahun Berdiri</th><td>2021</td></tr>
+                    <tr><th>Sektor Usaha</th><td>Agroindustri & Perikanan</td></tr>
+                    <tr><th>Status</th><td><span class="badge">Aktif</span></td></tr>
+                </table>
+            </section>
+
+            <section id="data-anggota" class="card content-section">
+                <h3>Daftar Pengurus & Anggota</h3>
+                <table>
+                    <tr><th>No</th><th>Nama</th><th>Jabatan</th></tr>
+                    <tr><td>1</td><td>Budi Santoso</td><td>Ketua</td></tr>
+                    <tr><td>2</td><td>Siti Aminah</td><td>Sekretaris</td></tr>
+                    <tr><td>3</td><td>Agus Salim</td><td>Anggota</td></tr>
+                </table>
+            </section>
+
+            <section id="data-komoditas" class="card content-section">
+                <h3>Produk Unggulan</h3>
+                <table>
+                    <tr><th>Nama Komoditas</th><th>Kapasitas Produksi</th></tr>
+                    <tr><td>Kopi Arabika</td><td>2 Ton / Bulan</td></tr>
+                    <tr><td>Keripik Singkong</td><td>500 Kg / Bulan</td></tr>
+                </table>
+            </section>
         </main>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('.content-section');
-            const pageTitle = document.getElementById('page-title');
+        // Logika Navigasi
+        const links = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.content-section');
+        const title = document.getElementById('page-title');
 
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Sembunyikan navigasi aktif sebelumnya
-                    navLinks.forEach(nav => nav.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Sembunyikan section konten sebelumnya
-                    sections.forEach(section => section.classList.remove('active'));
-                    
-                    // Munculkan section terpilih
-                    const targetId = this.getAttribute('href').substring(1);
-                    const targetSection = document.getElementById(targetId);
-                    if (targetSection) {
-                        targetSection.classList.add('active');
-                    }
-
-                    // Sinkronisasi teks header utama otomatis (membersihkan emoji)
-                    pageTitle.textContent = this.textContent.replace(/[^\w\s]/gi, '').trim(); 
-                });
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                links.forEach(l => l.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                
+                this.classList.add('active');
+                const targetId = this.getAttribute('href').substring(1);
+                document.getElementById(targetId).classList.add('active');
+                title.textContent = this.textContent;
             });
         });
     </script>
