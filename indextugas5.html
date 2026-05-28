@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Profil KUB</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         /* ==========================================================================
@@ -21,10 +21,8 @@
             font-family: 'Poppins', sans-serif;
             background-color: #f4f6f9;
             color: #333;
-            scroll-behavior: smooth;
         }
 
-        /* Dashboard Layout */
         .dashboard-container {
             display: flex;
             min-height: 100vh;
@@ -53,7 +51,7 @@
         .sidebar-brand h2 {
             font-size: 20px;
             font-weight: 600;
-            color: #10b981; /* Warna Aksen Hijau */
+            color: #10b981;
         }
 
         .sidebar-brand p {
@@ -79,6 +77,7 @@
             text-decoration: none;
             font-size: 14px;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .sidebar-menu ul li a i {
@@ -155,12 +154,28 @@
             font-weight: bold;
         }
 
-        /* Content Body */
         .content-body {
             padding: 40px;
             display: flex;
             flex-direction: column;
             gap: 30px;
+        }
+
+        /* ==========================================================================
+           SECTION DISPLAY LOGIC & ANIMATION
+           ========================================================================== */
+        .content-section {
+            display: none; /* Sembunyikan semua section secara default */
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .content-section.active {
+            display: block; /* Tampilkan hanya section yang aktif */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Card Component */
@@ -197,8 +212,6 @@
         /* ==========================================================================
            COMPONENTS (TABLES, BADGES, GRIDS)
            ========================================================================== */
-        
-        /* Data Dasar List Style */
         .table-info {
             width: 100%;
             border-collapse: collapse;
@@ -217,7 +230,6 @@
             color: #1e293b;
         }
 
-        /* Data Anggota Table Styling */
         .data-table {
             width: 100%;
             border-collapse: collapse;
@@ -240,7 +252,6 @@
             font-size: 14px;
         }
 
-        /* Badges */
         .badge {
             padding: 4px 8px;
             border-radius: 4px;
@@ -254,7 +265,6 @@
             color: #065f46;
         }
 
-        /* Grid Komoditas */
         .grid-komoditas {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -293,29 +303,14 @@
         }
 
         /* ==========================================================================
-           RESPONSIVE BREAKPOINTS (MEDIA QUERIES)
+           RESPONSIVE
            ========================================================================== */
         @media (max-width: 768px) {
-            .dashboard-container {
-                flex-direction: column;
-            }
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-            }
-            .main-content {
-                margin-left: 0;
-            }
-            .main-header {
-                padding: 20px;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            .content-body {
-                padding: 20px;
-            }
+            .dashboard-container { flex-direction: column; }
+            .sidebar { position: relative; width: 100%; height: auto; }
+            .main-content { margin-left: 0; }
+            .main-header { padding: 20px; flex-direction: column; align-items: flex-start; gap: 15px; }
+            .content-body { padding: 20px; }
         }
     </style>
 </head>
@@ -329,10 +324,10 @@
             </div>
             <nav class="sidebar-menu">
                 <ul>
-                    <li><a href="#sejarah" class="active"><i>📜</i> Sejarah Kelompok</a></li>
-                    <li><a href="#data-dasar"><i>📊</i> Data Dasar Kelompok</a></li>
-                    <li><a href="#data-anggota"><i>👥</i> Data Anggota</a></li>
-                    <li><a href="#data-komoditas"><i>🌾</i> Data Komoditas</a></li>
+                    <li><a href="#sejarah" class="nav-link active"><i>📜</i> Sejarah Kelompok</a></li>
+                    <li><a href="#data-dasar" class="nav-link"><i>📊</i> Data Dasar Kelompok</a></li>
+                    <li><a href="#data-anggota" class="nav-link"><i>👥</i> Data Anggota</a></li>
+                    <li><a href="#data-komoditas" class="nav-link"><i>🌾</i> Data Komoditas</a></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -343,8 +338,8 @@
         <main class="main-content">
             <header class="main-header">
                 <div class="header-title">
-                    <h1>Dashboard Profil KUB</h1>
-                    <p>Selamat datang di panel informasi utama Kelompok Usaha Bersama.</p>
+                    <h1 id="page-title">Sejarah Kelompok</h1>
+                    <p>Dashboard panel informasi Kelompok Usaha Bersama.</p>
                 </div>
                 <div class="user-profile">
                     <span class="user-name">Admin KUB</span>
@@ -354,7 +349,7 @@
 
             <div class="content-body">
                 
-                <section id="sejarah" class="card">
+                <section id="sejarah" class="card content-section active">
                     <div class="card-header">
                         <h2>Sejarah Kelompok</h2>
                     </div>
@@ -364,7 +359,7 @@
                     </div>
                 </section>
 
-                <section id="data-dasar" class="card">
+                <section id="data-dasar" class="card content-section">
                     <div class="card-header">
                         <h2>Data Dasar Kelompok</h2>
                     </div>
@@ -394,7 +389,7 @@
                     </div>
                 </section>
 
-                <section id="data-anggota" class="card">
+                <section id="data-anggota" class="card content-section">
                     <div class="card-header">
                         <h2>Data Anggota Kelompok</h2>
                     </div>
@@ -409,36 +404,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Ahmad Subarjo</td>
-                                    <td>Ketua Kelompok</td>
-                                    <td><span class="badge badge-success">Aktif</span></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Siti Rahmawati</td>
-                                    <td>Sekretaris</td>
-                                    <td><span class="badge badge-success">Aktif</span></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Budi Hartono</td>
-                                    <td>Bendahara</td>
-                                    <td><span class="badge badge-success">Aktif</span></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Dewi Lestari</td>
-                                    <td>Anggota / Pemasaran</td>
-                                    <td><span class="badge badge-success">Aktif</span></td>
-                                </tr>
+                                <tr><td>1</td><td>Ahmad Subarjo</td><td>Ketua Kelompok</td><td><span class="badge badge-success">Aktif</span></td></tr>
+                                <tr><td>2</td><td>Siti Rahmawati</td><td>Sekretaris</td><td><span class="badge badge-success">Aktif</span></td></tr>
+                                <tr><td>3</td><td>Budi Hartono</td><td>Bendahara</td><td><span class="badge badge-success">Aktif</span></td></tr>
+                                <tr><td>4</td><td>Dewi Lestari</td><td>Anggota / Pemasaran</td><td><span class="badge badge-success">Aktif</span></td></tr>
                             </tbody>
                         </table>
                     </div>
                 </section>
 
-                <section id="data-komoditas" class="card">
+                <section id="data-komoditas" class="card content-section">
                     <div class="card-header">
                         <h2>Data Komoditas Kelompok</h2>
                     </div>
@@ -465,5 +440,39 @@
         </main>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil semua elemen link navigasi dan semua section konten
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.content-section');
+            const pageTitle = document.getElementById('page-title');
+
+            // Tambahkan event listener saat navigasi diklik
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); // Mencegah reload / lompat ke anchor
+                    
+                    // 1. Hapus class 'active' dari semua menu
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    
+                    // 2. Tambahkan class 'active' ke menu yang diklik
+                    this.classList.add('active');
+                    
+                    // 3. Sembunyikan semua section
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // 4. Tampilkan section yang ID-nya sama dengan href yang diklik
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
+
+                    // 5. Ubah Judul Header secara otomatis sesuai menu
+                    pageTitle.textContent = this.textContent.replace(/[^\w\s]/gi, '').trim(); 
+                });
+            });
+        });
+    </script>
 </body>
 </html>
