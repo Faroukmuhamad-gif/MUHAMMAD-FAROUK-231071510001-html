@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Profil KUB</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           RESET & BASE STYLES
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ==========================================================================
+           SIDEBAR STYLES
+           ========================================================================== */
+        .sidebar {
+            width: 260px;
+            background-color: #1e293b;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            padding: 24px;
+            background-color: #0f172a;
+            text-align: center;
+        }
+
+        .sidebar-brand h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #10b981; /* Warna Aksen Hijau */
+        }
+
+        .sidebar-brand p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .sidebar-menu ul {
+            list-style: none;
+        }
+
+        .sidebar-menu ul li a {
+            display: flex;
+            align-items: center;
+            padding: 14px 24px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu ul li a i {
+            margin-right: 12px;
+            font-style: normal;
+        }
+
+        .sidebar-menu ul li a:hover, 
+        .sidebar-menu ul li a.active {
+            background-color: #334155;
+            color: #fff;
+            border-left: 4px solid #10b981;
+        }
+
+        .sidebar-footer {
+            padding: 15px;
+            text-align: center;
+            background-color: #0f172a;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* ==========================================================================
+           MAIN CONTENT STYLES
+           ========================================================================== */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-header {
+            background-color: #fff;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .header-title h1 {
+            font-size: 24px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .header-title p {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #10b981;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Content Body */
+        .content-body {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Card Component */
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            background-color: #fafafa;
+        }
+
+        .card-header h2 {
+            font-size: 18px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .card-content {
+            padding: 24px;
+            line-height: 1.6;
+            color: #475569;
+        }
+
+        .card-content p {
+            margin-bottom: 15px;
+        }
+
+        /* ==========================================================================
+           COMPONENTS (TABLES, BADGES, GRIDS)
+           ========================================================================== */
+        
+        /* Data Dasar List Style */
+        .table-info {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-info td {
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 15px;
+            vertical-align: top;
+        }
+
+        .table-info td.label {
+            width: 220px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* Data Anggota Table Styling */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .data-table th, .data-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .data-table td {
+            font-size: 14px;
+        }
+
+        /* Badges */
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .badge-success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        /* Grid Komoditas */
+        .grid-komoditas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .komoditas-item {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 20px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .komoditas-item:hover {
+            transform: translateY(-3px);
+            border-color: #10b981;
+        }
+
+        .komoditas-item h3 {
+            font-size: 16px;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .komoditas-item p {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .stock-info {
+            font-size: 12px;
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        /* ==========================================================================
+           RESPONSIVE BREAKPOINTS (MEDIA QUERIES)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .main-header {
+                padding: 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .content-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h2>KUB Sejahtera</h2>
+                <p>Kelompok Usaha Bersama</p>
+            </div>
+            <nav class="sidebar-menu">
+                <ul>
+                    <li><a href="#sejarah" class="active"><i>📜</i> Sejarah Kelompok</a></li>
+                    <li><a href="#data-dasar"><i>📊</i> Data Dasar Kelompok</a></li>
+                    <li><a href="#data-anggota"><i>👥</i> Data Anggota</a></li>
+                    <li><a href="#data-komoditas"><i>🌾</i> Data Komoditas</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>v1.0 © 2026</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-title">
+                    <h1>Dashboard Profil KUB</h1>
+                    <p>Selamat datang di panel informasi utama Kelompok Usaha Bersama.</p>
+                </div>
+                <div class="user-profile">
+                    <span class="user-name">Admin KUB</span>
+                    <div class="user-avatar">A</div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                
+                <section id="sejarah" class="card">
+                    <div class="card-header">
+                        <h2>Sejarah Kelompok</h2>
+                    </div>
+                    <div class="card-content">
+                        <p>Kelompok Usaha Bersama (KUB) Sejahtera didirikan pada tanggal 12 Maret 2020 berdasarkan inisiatif para pelaku usaha lokal untuk meningkatkan kesejahteraan ekonomi bersama. Berawal dari perkumpulan sekadar sharing informasi, kini KUB telah berkembang menjadi pilar ekonomi desa yang mandiri.</p>
+                        <p>Melalui gotong royong dan pemanfaatan teknologi, kami berkomitmen untuk terus memperluas jaringan pasar dan meningkatkan kualitas produk lokal hingga kancah nasional.</p>
+                    </div>
+                </section>
+
+                <section id="data-dasar" class="card">
+                    <div class="card-header">
+                        <h2>Data Dasar Kelompok</h2>
+                    </div>
+                    <div class="card-content">
+                        <table class="table-info">
+                            <tr>
+                                <td class="label">Nama KUB</td>
+                                : KUB Sejahtera Bersama
+                            </tr>
+                            <tr>
+                                <td class="label">Nomor Registrasi</td>
+                                : AHU-0012345.AH.01.07
+                            </tr>
+                            <tr>
+                                <td class="label">Tanggal Berdiri</td>
+                                : 12 Maret 2020
+                            </tr>
+                            <tr>
+                                <td class="label">Alamat Sekretariat</td>
+                                : Jl. Raya Usaha No. 45, Kecamatan Makmur
+                            </tr>
+                            <tr>
+                                <td class="label">Status Keaktifan</td>
+                                : <span class="badge badge-success">Aktif</span>
+                            </tr>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="data-anggota" class="card">
+                    <div class="card-header">
+                        <h2>Data Anggota Kelompok</h2>
+                    </div>
+                    <div class="card-content">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Anggota</th>
+                                    <th>Jabatan</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Ahmad Subarjo</td>
+                                    <td>Ketua Kelompok</td>
+                                    <td><span class="badge badge-success">Aktif</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Siti Rahmawati</td>
+                                    <td>Sekretaris</td>
+                                    <td><span class="badge badge-success">Aktif</span></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Budi Hartono</td>
+                                    <td>Bendahara</td>
+                                    <td><span class="badge badge-success">Aktif</span></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Dewi Lestari</td>
+                                    <td>Anggota / Pemasaran</td>
+                                    <td><span class="badge badge-success">Aktif</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="data-komoditas" class="card">
+                    <div class="card-header">
+                        <h2>Data Komoditas Kelompok</h2>
+                    </div>
+                    <div class="card-content grid-komoditas">
+                        <div class="komoditas-item">
+                            <h3>Padi Organik</h3>
+                            <p>Produksi utama KUB dengan sistem pertanian berkelanjutan.</p>
+                            <span class="stock-info">Kapasitas: 5 Ton / Bulan</span>
+                        </div>
+                        <div class="komoditas-item">
+                            <h3>Keripik Singkong</h3>
+                            <p>Produk olahan hilir untuk meningkatkan nilai tambah komoditas.</p>
+                            <span class="stock-info">Kapasitas: 500 Kg / Bulan</span>
+                        </div>
+                        <div class="komoditas-item">
+                            <h3>Pupuk Kompos</h3>
+                            <p>Pemanfaatan limbah pertanian menjadi pupuk organik siap pakai.</p>
+                            <span class="stock-info">Kapasitas: 2 Ton / Bulan</span>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
