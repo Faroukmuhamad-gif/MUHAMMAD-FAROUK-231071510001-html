@@ -22,7 +22,10 @@
         .brand h2 { font-size: 18px; color: #38bdf8; }
         .brand p { font-size: 12px; color: #94a3b8; margin-top: 5px; }
         
-        .nav-menu { list-style: none; padding: 20px 0; flex: 1; }
+        .sidebar-heading { padding: 20px 20px 5px; font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        
+        .nav-menu { list-style: none; padding: 10px 0; }
+        .nav-menu.main { flex: 1; }
         .nav-menu li { margin-bottom: 5px; }
         .nav-menu a { display: flex; align-items: center; padding: 12px 20px; color: #cbd5e1; text-decoration: none; font-size: 14px; transition: 0.3s; cursor: pointer; border-left: 4px solid transparent; }
         .nav-menu a:hover, .nav-menu a.active { background-color: #1e293b; color: white; border-left-color: #38bdf8; }
@@ -82,11 +85,20 @@
                 <h2>Beranda Keuangan</h2>
                 <p>Sistem Akumulasi Kas KUB</p>
             </div>
-            <ul class="nav-menu">
+            
+            <div class="sidebar-heading">Daftar KUB</div>
+            <ul class="nav-menu main">
                 <li><a class="nav-link active" data-kub="KUB Sumber Makmur">🌊 KUB Sumber Makmur</a></li>
                 <li><a class="nav-link" data-kub="KUB Angsa Laut">🚢 KUB Angsa Laut</a></li>
                 <li><a class="nav-link" data-kub="KUB Intimung Taka">⭐ KUB Intimung Taka</a></li>
                 <li><a class="nav-link" data-kub="KUB Usaha Nelayan">🤝 KUB Usaha Nelayan</a></li>
+            </ul>
+
+            <div class="sidebar-heading">Tautan Eksternal</div>
+            <ul class="nav-menu">
+                <li><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSG6VRpiCTYrZEanc-amvV0-8g9lGy_wOz7XsYi9VVH4dyQazhAjNFaPOz7ZLCw_9PueUf-jbLr7026/pubhtml?widget=true&amp;headers=false" target="_blank" title="Buka Data Google Sheets">📊 Buka Spreadsheet</a></li>
+                
+                <li><a href="https://datastudio.google.com/embed/reporting/6c706fd6-0af2-4f14-b6f9-bbb3ab12735d/page/page_12345" target="_blank" title="Buka Dashboard Looker Studio">📈 Buka Looker Studio</a></li>
             </ul>
         </aside>
 
@@ -215,7 +227,6 @@
             "KUB Angsa Laut": "1311921",
             "KUB Intimung Taka": "903385678",
             "KUB Usaha Nelayan": "1566553782"
-
         };
 
         const sheetID = "1NVHzd-zmhPG5y2puJMw3zrRpLkp_8rl_Ee02-2iBUhU";
