@@ -211,7 +211,46 @@ const fetchDataDariSpreadsheet = () => {
 window.onload = fetchDataDariSpreadsheet;
 
 // Logika Navigasi (Ganti KUB)
+const gidData = {
+    "KUB Putra Samudra": "755194810", 
+    "KUB Maju Jaya": "1311921",
+    "KUB Bintang Laut": "903385678",
+    "KUB Harapan Bersama": "1566553782"
+};
+
+// ID Spreadsheet utama Anda
+const sheetID = "1NVHzd-zmhPG5y2puJMw3zrRpLkp_8rl_Ee02-2iBUhU";
+
+// Logika Navigasi (Ganti KUB)
 const navLinks = document.querySelectorAll('.nav-link');
+const headerTitle = document.getElementById('header-title');
+const badgeKub = document.getElementById('badge-kub');
+const inputNamaKub = document.getElementById('nama_kub');
+const btnExcel = document.querySelector('.btn-excel'); // Ambil elemen tombol unduh
+
+navLinks.forEach(link => {
+    link.addEventListener('click', function() {
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        
+        const selectedKUB = this.getAttribute('data-kub');
+        
+        // Update Teks
+        headerTitle.innerText = "Laporan Keuangan: " + selectedKUB;
+        badgeKub.innerText = "Menambah ke: " + selectedKUB;
+        inputNamaKub.value = selectedKUB;
+
+        // Update Link Tombol Unduh sesuai GID KUB yang aktif
+        const activeGid = gidData[selectedKUB];
+        btnExcel.href = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=xlsx&gid=${activeGid}`;
+
+        // Ubah tampilan angka sesuai KUB yang dipilih
+        updateDashboard(selectedKUB);
+    });
+});
+
+// Set link unduhan default saat halaman pertama kali dibuka (KUB Putra Samudra)
+btnExcel.href = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=xlsx&gid=${gidData["KUB Putra Samudra"]}`;
 const headerTitle = document.getElementById('header-title');
 const badgeKub = document.getElementById('badge-kub');
 const inputNamaKub = document.getElementById('nama_kub'); 
