@@ -77,15 +77,16 @@
         .status-error { background-color: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
 
         /* ==========================================================================
-           EMBED / SANDBOX SECTION (BARU)
+           EMBED / SANDBOX SECTION
            ========================================================================== */
         .embed-section { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 30px; }
         .embed-section h2 { font-size: 16px; margin-bottom: 15px; color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
         .iframe-container { width: 100%; height: 500px; border-radius: 6px; overflow: hidden; border: 1px solid #cbd5e1; background-color: #f8fafc; }
         .iframe-container iframe { width: 100%; height: 100%; border: none; }
         
-        /* Looker Studio biasanya butuh lebih tinggi */
+        /* Tinggi Khusus Grid Kontainer */
         .looker-container { height: 700px; }
+        .gform-container { height: 800px; } /* Pembatas gulir agar form 2441px tidak merusak layout */
     </style>
 </head>
 <body>
@@ -110,6 +111,12 @@
             <ul class="nav-menu">
                 <li><a href="#spreadsheet-sandbox" title="Lihat Data di Spreadsheet">📊 Sandbox Spreadsheet</a></li>
                 <li><a href="#looker-sandbox" title="Lihat Visualisasi Data">📈 Looker Studio Visual</a></li>
+            </ul>
+
+            <div class="sidebar-heading">Evaluasi Sistem</div>
+            <ul class="nav-menu">
+                <li><a href="#gform-kepuasan" title="Isi Kuesioner Kepuasan">📋 Form Kepuasan</a></li>
+                <li><a href="#data-kepuasan" title="Lihat Respon Kepuasan">📈 Data Respon Kepuasan</a></li>
             </ul>
         </aside>
 
@@ -192,6 +199,20 @@
                 </div>
             </div>
 
+            <div class="embed-section" id="gform-kepuasan">
+                <h2>📋 Kuesioner Tingkat Kepuasan Sistem</h2>
+                <div class="iframe-container gform-container">
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeoG-pGAhWHok7GGEgo77APEhjYkuvAaIOVCnY-cyrKG8OgJw/viewform?embedded=true" marginheight="0" marginwidth="0">Loading…</iframe>
+                </div>
+            </div>
+
+            <div class="embed-section" id="data-kepuasan">
+                <h2>📊 Sajian Hasil Respon Kepuasan Pengguna (Live)</h2>
+                <div class="iframe-container">
+                    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSG6VRpiCTYrZEanc-amvV0-8g9lGy_wOz7XsYi9VVH4dyQazhAjNFaPOz7ZLCw_9PueUf-jbLr7026/pubhtml?gid=1537984991&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+                </div>
+            </div>
+
         </main>
     </div>
 
@@ -264,7 +285,6 @@
 
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
-                // Scroll ke paling atas jika mengganti KUB
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 
                 navLinks.forEach(l => l.classList.remove('active'));
@@ -276,11 +296,9 @@
                 badgeKub.innerText = "Menambah ke: " + selectedKUB;
                 inputNamaKub.value = selectedKUB;
 
-                // Update link excel
                 const activeGid = gidData[selectedKUB];
                 btnExcel.href = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=xlsx&gid=${activeGid}`;
 
-                // Update angka dashboard
                 updateDashboard(selectedKUB);
             });
         });
@@ -322,10 +340,8 @@
                     document.getElementById('tanggal').valueAsDate = new Date();
                     inputNamaKub.value = currentKub; 
 
-                    // Tarik data ulang
                     fetchDataDariSpreadsheet();
                     
-                    // Optional: Muat ulang iframe Looker & Sheets agar data update
                     document.querySelector('#spreadsheet-sandbox iframe').src = document.querySelector('#spreadsheet-sandbox iframe').src;
                     document.querySelector('#looker-sandbox iframe').src = document.querySelector('#looker-sandbox iframe').src;
                 } else {
