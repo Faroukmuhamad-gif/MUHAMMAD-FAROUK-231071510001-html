@@ -10,6 +10,7 @@
            RESET & BASE
            ========================================================================== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; } /* Menambahkan efek scroll halus */
         body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; color: #1e293b; }
         
         .app-container { display: flex; min-height: 100vh; }
@@ -17,7 +18,7 @@
         /* ==========================================================================
            SIDEBAR NAVIGATION
            ========================================================================== */
-        .sidebar { width: 260px; background-color: #0f172a; color: white; display: flex; flex-direction: column; position: fixed; height: 100vh; }
+        .sidebar { width: 260px; background-color: #0f172a; color: white; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; }
         .brand { padding: 25px 20px; background-color: #020617; text-align: center; border-bottom: 1px solid #1e293b; }
         .brand h2 { font-size: 18px; color: #38bdf8; }
         .brand p { font-size: 12px; color: #94a3b8; margin-top: 5px; }
@@ -57,7 +58,7 @@
         /* ==========================================================================
            FORM SECTION
            ========================================================================== */
-        .form-section { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .form-section { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 40px; }
         .form-section h2 { font-size: 18px; margin-bottom: 25px; color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
         .active-kub-badge { background-color: #e0f2fe; color: #0369a1; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
         
@@ -74,6 +75,17 @@
         #status-msg { margin-top: 20px; padding: 12px; border-radius: 6px; display: none; font-size: 14px; text-align: center; font-weight: 500; }
         .status-success { background-color: #d1fae5; color: #065f46; border: 1px solid #34d399; }
         .status-error { background-color: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+
+        /* ==========================================================================
+           EMBED / SANDBOX SECTION (BARU)
+           ========================================================================== */
+        .embed-section { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 30px; }
+        .embed-section h2 { font-size: 16px; margin-bottom: 15px; color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
+        .iframe-container { width: 100%; height: 500px; border-radius: 6px; overflow: hidden; border: 1px solid #cbd5e1; background-color: #f8fafc; }
+        .iframe-container iframe { width: 100%; height: 100%; border: none; }
+        
+        /* Looker Studio biasanya butuh lebih tinggi */
+        .looker-container { height: 700px; }
     </style>
 </head>
 <body>
@@ -94,17 +106,16 @@
                 <li><a class="nav-link" data-kub="KUB Usaha Nelayan">🤝 KUB Usaha Nelayan</a></li>
             </ul>
 
-            <div class="sidebar-heading">Tautan Eksternal</div>
+            <div class="sidebar-heading">Sajian Data Langsung</div>
             <ul class="nav-menu">
-                <li><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSG6VRpiCTYrZEanc-amvV0-8g9lGy_wOz7XsYi9VVH4dyQazhAjNFaPOz7ZLCw_9PueUf-jbLr7026/pubhtml?widget=true&amp;headers=false" target="_blank" title="Buka Data Google Sheets">📊 Buka Spreadsheet</a></li>
-                
-                <li><a href="https://datastudio.google.com/embed/reporting/6c706fd6-0af2-4f14-b6f9-bbb3ab12735d/page/page_12345" target="_blank" title="Buka Dashboard Looker Studio">📈 Buka Looker Studio</a></li>
+                <li><a href="#spreadsheet-sandbox" title="Lihat Data di Spreadsheet">📊 Sandbox Spreadsheet</a></li>
+                <li><a href="#looker-sandbox" title="Lihat Visualisasi Data">📈 Looker Studio Visual</a></li>
             </ul>
         </aside>
 
         <main class="main-content">
             
-            <header class="header">
+            <header class="header" id="top-section">
                 <div>
                     <h1 id="header-title">Laporan Keuangan: KUB Sumber Makmur</h1>
                 </div>
@@ -165,6 +176,20 @@
                     <button type="submit" id="submitBtn" class="btn-submit">Rekam Transaksi ke Database</button>
                     <div id="status-msg"></div>
                 </form>
+            </div>
+
+            <div class="embed-section" id="spreadsheet-sandbox">
+                <h2>📊 Live Database Laporan Keuangan (Spreadsheet)</h2>
+                <div class="iframe-container">
+                    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSG6VRpiCTYrZEanc-amvV0-8g9lGy_wOz7XsYi9VVH4dyQazhAjNFaPOz7ZLCw_9PueUf-jbLr7026/pubhtml?widget=true&amp;headers=false"></iframe>
+                </div>
+            </div>
+
+            <div class="embed-section" id="looker-sandbox">
+                <h2>📈 Visualisasi Data Interaktif (Looker Studio)</h2>
+                <div class="iframe-container looker-container">
+                    <iframe src="https://datastudio.google.com/embed/reporting/6c706fd6-0af2-4f14-b6f9-bbb3ab12735d/page/page_12345" allowfullscreen></iframe>
+                </div>
             </div>
 
         </main>
@@ -238,7 +263,10 @@
         const btnExcel = document.querySelector('.btn-excel');
 
         navLinks.forEach(link => {
-            link.addEventListener('click', function() {
+            link.addEventListener('click', function(e) {
+                // Scroll ke paling atas jika mengganti KUB
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
                 navLinks.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
                 
@@ -296,6 +324,10 @@
 
                     // Tarik data ulang
                     fetchDataDariSpreadsheet();
+                    
+                    // Optional: Muat ulang iframe Looker & Sheets agar data update
+                    document.querySelector('#spreadsheet-sandbox iframe').src = document.querySelector('#spreadsheet-sandbox iframe').src;
+                    document.querySelector('#looker-sandbox iframe').src = document.querySelector('#looker-sandbox iframe').src;
                 } else {
                     throw new Error("Gagal menyimpan");
                 }
