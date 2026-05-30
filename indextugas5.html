@@ -96,7 +96,7 @@
                 <div>
                     <h1 id="header-title">Laporan Keuangan: KUB Putra Samudra</h1>
                 </div>
-                <a href="https://docs.google.com/spreadsheets/d/1NVHzd-zmhPG5y2puJMw3zrRpLkp_8rl_Ee02-2iBUhU/edit?usp=sharing" class="btn-excel" target="_blank">
+                <a href="#" class="btn-excel" target="_blank">
                     📥 Unduh Rekap (Excel)
                 </a>
             </header>
@@ -159,79 +159,71 @@
     </div>
 
     <script>
-        // GANTI DENGAN URL APPS SCRIPT ANDA
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1AdfqITLEYZ-1v4AUzk0-5UdNdfR4G_hgqGMAykXYN5HMMJ4otkSqt7dxLVXI9l-UIQ/exec'; 
+        // URL APPS SCRIPT ANDA
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1AdfqITLEYZ-1v4AUzk0-5UdNdfR4G_hgqGMAykXYN5HMMJ4otkSqt7dxLVXI9l-UIQ/exec'; 
 
-// Data awal sebelum ditarik dari Spreadsheet (Nilai default 0)
-let dashboardData = {
-    "KUB Putra Samudra": { masuk: 0, keluar: 0 },
-    "KUB Maju Jaya": { masuk: 0, keluar: 0 },
-    "KUB Bintang Laut": { masuk: 0, keluar: 0 },
-    "KUB Harapan Bersama": { masuk: 0, keluar: 0 }
-};
-
-const formatRupiah = (angka) => {
-    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(angka);
-};
-
-// Fungsi Memperbarui Tampilan Angka di Dashboard
-const updateDashboard = (kubName) => {
-    // Pastikan data KUB ada, jika tidak set ke 0
-    const data = dashboardData[kubName] || { masuk: 0, keluar: 0 };
-    const saldo = data.masuk - data.keluar;
-
-    document.getElementById('masuk-display').innerText = formatRupiah(data.masuk);
-    document.getElementById('keluar-display').innerText = formatRupiah(data.keluar);
-    document.getElementById('saldo-display').innerText = formatRupiah(saldo);
-};
-
-// FUNGSI BARU: Menarik Data Real-time dari Spreadsheet
-const fetchDataDariSpreadsheet = () => {
-    // Tampilkan tulisan "Memuat..." saat mengambil data
-    document.getElementById('masuk-display').innerText = "Memuat...";
-    document.getElementById('keluar-display').innerText = "Memuat...";
-    document.getElementById('saldo-display').innerText = "Memuat...";
-
-    fetch(SCRIPT_URL)
-        .then(response => response.json())
-        .then(data => {
-            if(!data.error) {
-                dashboardData = data; // Timpa data 0 dengan data asli dari Spreadsheet
-                const currentKUB = document.getElementById('nama_kub').value;
-                updateDashboard(currentKUB); // Tampilkan ke layar
-            }
-        })
-        .catch(error => {
-            console.error('Error saat menarik data:', error);
-            document.getElementById('saldo-display').innerText = "Gagal memuat data";
-        });
-};
-
-// Panggil fungsi tarik data secara otomatis saat halaman web pertama kali dibuka
-window.onload = fetchDataDariSpreadsheet;
-
-// Logika Navigasi (Ganti KUB)
-// ==========================================================================
-        // PASTE DI SINI (Di dalam tag <script> bagian bawah)
-        // ==========================================================================
-        
-        // Ganti angka di bawah ini dengan angka GID asli dari masing-masing sheet KUB Anda
-        const gidData = {
-            "KUB Putra Samudra": "755194810", // Ganti dengan GID sheet Putra Samudra
-            "KUB Maju Jaya": "1311921",     // Ganti dengan GID sheet Maju Jaya
-            "KUB Bintang Laut": "903385678",   // Ganti dengan GID sheet Bintang Laut
-            "KUB Harapan Bersama": "1566553782" // Ganti dengan GID sheet Harapan Bersama
+        // Data awal sebelum ditarik dari Spreadsheet
+        let dashboardData = {
+            "KUB Putra Samudra": { masuk: 0, keluar: 0 },
+            "KUB Maju Jaya": { masuk: 0, keluar: 0 },
+            "KUB Bintang Laut": { masuk: 0, keluar: 0 },
+            "KUB Harapan Bersama": { masuk: 0, keluar: 0 }
         };
 
-        // ID Spreadsheet utama Anda (Tetap gunakan ID ini)
+        const formatRupiah = (angka) => {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(angka);
+        };
+
+        // Fungsi Memperbarui Tampilan Angka di Dashboard
+        const updateDashboard = (kubName) => {
+            const data = dashboardData[kubName] || { masuk: 0, keluar: 0 };
+            const saldo = data.masuk - data.keluar;
+
+            document.getElementById('masuk-display').innerText = formatRupiah(data.masuk);
+            document.getElementById('keluar-display').innerText = formatRupiah(data.keluar);
+            document.getElementById('saldo-display').innerText = formatRupiah(saldo);
+        };
+
+        // Fungsi Menarik Data Real-time dari Spreadsheet
+        const fetchDataDariSpreadsheet = () => {
+            document.getElementById('masuk-display').innerText = "Memuat...";
+            document.getElementById('keluar-display').innerText = "Memuat...";
+            document.getElementById('saldo-display').innerText = "Memuat...";
+
+            fetch(SCRIPT_URL)
+                .then(response => response.json())
+                .then(data => {
+                    if(!data.error) {
+                        dashboardData = data; 
+                        const currentKUB = document.getElementById('nama_kub').value;
+                        updateDashboard(currentKUB);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saat menarik data:', error);
+                    document.getElementById('saldo-display').innerText = "Gagal memuat data";
+                });
+        };
+
+        window.onload = fetchDataDariSpreadsheet;
+
+        // ==========================================================================
+        // LOGIKA NAVIGASI DAN UNDUH EXCEL
+        // ==========================================================================
+        const gidData = {
+            "KUB Putra Samudra": "755194810",
+            "KUB Maju Jaya": "1311921",
+            "KUB Bintang Laut": "903385678",
+            "KUB Harapan Bersama": "1566553782"
+        };
+
         const sheetID = "1NVHzd-zmhPG5y2puJMw3zrRpLkp_8rl_Ee02-2iBUhU";
 
-        // Logika Navigasi Baru yang Mendukung Unduh Per KUB
         const navLinks = document.querySelectorAll('.nav-link');
         const headerTitle = document.getElementById('header-title');
         const badgeKub = document.getElementById('badge-kub');
         const inputNamaKub = document.getElementById('nama_kub');
-        const btnExcel = document.querySelector('.btn-excel'); // Mengambil tombol unduh
+        const btnExcel = document.querySelector('.btn-excel');
 
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
@@ -240,92 +232,74 @@ window.onload = fetchDataDariSpreadsheet;
                 
                 const selectedKUB = this.getAttribute('data-kub');
                 
-                // Update Teks di Dashboard
                 headerTitle.innerText = "Laporan Keuangan: " + selectedKUB;
                 badgeKub.innerText = "Menambah ke: " + selectedKUB;
                 inputNamaKub.value = selectedKUB;
 
-                // OTOMATIS MERUBAH LINK UNDUH: Menyesuaikan GID KUB yang sedang aktif
+                // Update link excel
                 const activeGid = gidData[selectedKUB];
                 btnExcel.href = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=xlsx&gid=${activeGid}`;
 
-                // Ubah tampilan angka sesuai KUB yang dipilih
+                // Update angka dashboard
                 updateDashboard(selectedKUB);
             });
         });
 
-        // Mengatur link unduhan default saat halaman pertama kali dibuka (KUB Putra Samudra)
+        // Set default link excel untuk KUB Putra Samudra
         btnExcel.href = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=xlsx&gid=${gidData["KUB Putra Samudra"]}`;
-const badgeKub = document.getElementById('badge-kub');
-const inputNamaKub = document.getElementById('nama_kub'); 
 
-navLinks.forEach(link => {
-    link.addEventListener('click', function() {
-        navLinks.forEach(l => l.classList.remove('active'));
-        this.classList.add('active');
-        
-        const selectedKUB = this.getAttribute('data-kub');
-        
-        headerTitle.innerText = "Laporan Keuangan: " + selectedKUB;
-        badgeKub.innerText = "Menambah ke: " + selectedKUB;
-        inputNamaKub.value = selectedKUB;
+        // ==========================================================================
+        // LOGIKA SUBMIT FORM
+        // ==========================================================================
+        document.getElementById('tanggal').valueAsDate = new Date();
 
-        // Ubah tampilan angka sesuai KUB yang dipilih
-        updateDashboard(selectedKUB);
-    });
-});
+        const form = document.getElementById('kasForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMsg = document.getElementById('status-msg');
 
-// Set tanggal input otomatis hari ini
-document.getElementById('tanggal').valueAsDate = new Date();
-
-// Logika Submit Form
-const form = document.getElementById('kasForm');
-const submitBtn = document.getElementById('submitBtn');
-const statusMsg = document.getElementById('status-msg');
-
-form.addEventListener('submit', e => {
-    e.preventDefault();
-    submitBtn.disabled = true;
-    submitBtn.innerText = 'Memproses Transaksi...';
-    
-    const formData = new FormData(form);
-    const data = new URLSearchParams();
-    for (const pair of formData) {
-        data.append(pair[0], pair[1]);
-    }
-
-    fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: data
-    })
-    .then(response => response.json())
-    .then(result => {
-        if(result.result === "success") {
-            statusMsg.className = 'status-success';
-            statusMsg.innerText = '✅ Transaksi berhasil direkam untuk ' + inputNamaKub.value;
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Memproses Transaksi...';
             
-            // Reset form tapi pertahankan nama KUB dan tanggal hari ini
-            const currentKub = inputNamaKub.value;
-            form.reset();
-            document.getElementById('tanggal').valueAsDate = new Date();
-            inputNamaKub.value = currentKub; 
+            const formData = new FormData(form);
+            const data = new URLSearchParams();
+            for (const pair of formData) {
+                data.append(pair[0], pair[1]);
+            }
 
-            // TARIK DATA ULANG setelah transaksi berhasil agar saldo otomatis ter-update!
-            fetchDataDariSpreadsheet();
-            
-        } else {
-            throw new Error("Gagal menyimpan");
-        }
-    })
-    .catch(error => {
-        statusMsg.className = 'status-error';
-        statusMsg.innerText = '❌ Terjadi kesalahan pengiriman. Pastikan URL Script benar.';
-    })
-    .finally(() => {
-        statusMsg.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.innerText = 'Rekam Transaksi ke Database';
-        setTimeout(() => { statusMsg.style.display = 'none'; }, 5000);
-    });
-});
-// GANTI DENGAN URL APPS SCRIPT ANDA
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.json())
+            .then(result => {
+                if(result.result === "success") {
+                    statusMsg.className = 'status-success';
+                    statusMsg.innerText = '✅ Transaksi berhasil direkam untuk ' + inputNamaKub.value;
+                    
+                    const currentKub = inputNamaKub.value;
+                    form.reset();
+                    document.getElementById('tanggal').valueAsDate = new Date();
+                    inputNamaKub.value = currentKub; 
+
+                    // Tarik data ulang
+                    fetchDataDariSpreadsheet();
+                } else {
+                    throw new Error("Gagal menyimpan");
+                }
+            })
+            .catch(error => {
+                statusMsg.className = 'status-error';
+                statusMsg.innerText = '❌ Terjadi kesalahan pengiriman. Pastikan Google Apps Script sudah di Deploy versi terbaru.';
+            })
+            .finally(() => {
+                statusMsg.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Rekam Transaksi ke Database';
+                setTimeout(() => { statusMsg.style.display = 'none'; }, 5000);
+            });
+        });
+    </script>
+</body>
+</html>
