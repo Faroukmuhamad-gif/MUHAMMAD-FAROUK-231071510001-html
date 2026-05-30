@@ -159,112 +159,132 @@
     </div>
 
     <script>
-        // 1. SIMULASI DATA DASHBOARD (Karena HTML statis tidak bisa GET langsung ke Google Sheets tanpa API kompleks)
-        // Angka ini akan berubah bergantung KUB mana yang di-klik di menu navigasi.
-        const dashboardData = {
-            "KUB Putra Samudra": { masuk: 25000000, keluar: 8000000 },
-            "KUB Maju Jaya": { masuk: 18500000, keluar: 12000000 },
-            "KUB Bintang Laut": { masuk: 32000000, keluar: 15500000 },
-            "KUB Harapan Bersama": { masuk: 14000000, keluar: 4500000 }
-        };
+// GANTI DENGAN URL APPS SCRIPT ANDA
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1AdfqITLEYZ-1v4AUzk0-5UdNdfR4G_hgqGMAykXYN5HMMJ4otkSqt7dxLVXI9l-UIQ/exec'; 
 
-        // Fungsi format Rupiah
-        const formatRupiah = (angka) => {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(angka);
-        };
+// Data awal sebelum ditarik dari Spreadsheet (Nilai default 0)
+let dashboardData = {
+    "KUB Putra Samudra": { masuk: 0, keluar: 0 },
+    "KUB Maju Jaya": { masuk: 0, keluar: 0 },
+    "KUB Bintang Laut": { masuk: 0, keluar: 0 },
+    "KUB Harapan Bersama": { masuk: 0, keluar: 0 }
+};
 
-        // Fungsi Update UI Dashboard
-        const updateDashboard = (kubName) => {
-            const data = dashboardData[kubName];
-            const saldo = data.masuk - data.keluar;
+const formatRupiah = (angka) => {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(angka);
+};
 
-            document.getElementById('masuk-display').innerText = formatRupiah(data.masuk);
-            document.getElementById('keluar-display').innerText = formatRupiah(data.keluar);
-            document.getElementById('saldo-display').innerText = formatRupiah(saldo);
-        };
+// Fungsi Memperbarui Tampilan Angka di Dashboard
+const updateDashboard = (kubName) => {
+    // Pastikan data KUB ada, jika tidak set ke 0
+    const data = dashboardData[kubName] || { masuk: 0, keluar: 0 };
+    const saldo = data.masuk - data.keluar;
 
-        // 2. LOGIKA NAVIGASI (Ganti KUB)
-        const navLinks = document.querySelectorAll('.nav-link');
-        const headerTitle = document.getElementById('header-title');
-        const badgeKub = document.getElementById('badge-kub');
-        const inputNamaKub = document.getElementById('nama_kub'); // Hidden input untuk database
+    document.getElementById('masuk-display').innerText = formatRupiah(data.masuk);
+    document.getElementById('keluar-display').innerText = formatRupiah(data.keluar);
+    document.getElementById('saldo-display').innerText = formatRupiah(saldo);
+};
 
-        // Inisialisasi tampilan awal
-        updateDashboard("KUB Putra Samudra");
-        document.getElementById('tanggal').valueAsDate = new Date();
+// FUNGSI BARU: Menarik Data Real-time dari Spreadsheet
+const fetchDataDariSpreadsheet = () => {
+    // Tampilkan tulisan "Memuat..." saat mengambil data
+    document.getElementById('masuk-display').innerText = "Memuat...";
+    document.getElementById('keluar-display').innerText = "Memuat...";
+    document.getElementById('saldo-display').innerText = "Memuat...";
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                // Hapus state aktif dari semua link
-                navLinks.forEach(l => l.classList.remove('active'));
-                
-                // Tambahkan state aktif ke link yang diklik
-                this.classList.add('active');
-                
-                // Ambil nama KUB
-                const selectedKUB = this.getAttribute('data-kub');
-                
-                // Update Teks di UI
-                headerTitle.innerText = "Laporan Keuangan: " + selectedKUB;
-                badgeKub.innerText = "Menambah ke: " + selectedKUB;
-                
-                // Update Value Hidden Input untuk dikirim ke Google Sheets
-                inputNamaKub.value = selectedKUB;
-
-                // Update Angka di Dashboard
-                updateDashboard(selectedKUB);
-            });
-        });
-
-        // 3. LOGIKA SUBMIT FORM (Google Apps Script)
-        const form = document.getElementById('kasForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const statusMsg = document.getElementById('status-msg');
-
-        // GANTI URL INI DENGAN URL GOOGLE APPS SCRIPT ANDA
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1AdfqITLEYZ-1v4AUzk0-5UdNdfR4G_hgqGMAykXYN5HMMJ4otkSqt7dxLVXI9l-UIQ/exec'; 
-
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            submitBtn.disabled = true;
-            submitBtn.innerText = 'Memproses Transaksi...';
-            
-            const formData = new FormData(form);
-            const data = new URLSearchParams();
-            for (const pair of formData) {
-                data.append(pair[0], pair[1]);
+    fetch(SCRIPT_URL)
+        .then(response => response.json())
+        .then(data => {
+            if(!data.error) {
+                dashboardData = data; // Timpa data 0 dengan data asli dari Spreadsheet
+                const currentKUB = document.getElementById('nama_kub').value;
+                updateDashboard(currentKUB); // Tampilkan ke layar
             }
-
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: data
-            })
-            .then(response => response.json())
-            .then(result => {
-                if(result.result === "success") {
-                    statusMsg.className = 'status-success';
-                    statusMsg.innerText = '✅ Transaksi berhasil direkam untuk ' + inputNamaKub.value;
-                    
-                    // Reset form tapi tetap pertahankan tanggal hari ini
-                    const currentKub = inputNamaKub.value;
-                    form.reset();
-                    document.getElementById('tanggal').valueAsDate = new Date();
-                    inputNamaKub.value = currentKub; // Kembalikan value hidden input
-                } else {
-                    throw new Error("Gagal menyimpan");
-                }
-            })
-            .catch(error => {
-                statusMsg.className = 'status-error';
-                statusMsg.innerText = '❌ Terjadi kesalahan pengiriman. Pastikan URL Script benar.';
-            })
-            .finally(() => {
-                statusMsg.style.display = 'block';
-                submitBtn.disabled = false;
-                submitBtn.innerText = 'Rekam Transaksi ke Database';
-                setTimeout(() => { statusMsg.style.display = 'none'; }, 5000);
-            });
+        })
+        .catch(error => {
+            console.error('Error saat menarik data:', error);
+            document.getElementById('saldo-display').innerText = "Gagal memuat data";
         });
+};
+
+// Panggil fungsi tarik data secara otomatis saat halaman web pertama kali dibuka
+window.onload = fetchDataDariSpreadsheet;
+
+// Logika Navigasi (Ganti KUB)
+const navLinks = document.querySelectorAll('.nav-link');
+const headerTitle = document.getElementById('header-title');
+const badgeKub = document.getElementById('badge-kub');
+const inputNamaKub = document.getElementById('nama_kub'); 
+
+navLinks.forEach(link => {
+    link.addEventListener('click', function() {
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        
+        const selectedKUB = this.getAttribute('data-kub');
+        
+        headerTitle.innerText = "Laporan Keuangan: " + selectedKUB;
+        badgeKub.innerText = "Menambah ke: " + selectedKUB;
+        inputNamaKub.value = selectedKUB;
+
+        // Ubah tampilan angka sesuai KUB yang dipilih
+        updateDashboard(selectedKUB);
+    });
+});
+
+// Set tanggal input otomatis hari ini
+document.getElementById('tanggal').valueAsDate = new Date();
+
+// Logika Submit Form
+const form = document.getElementById('kasForm');
+const submitBtn = document.getElementById('submitBtn');
+const statusMsg = document.getElementById('status-msg');
+
+form.addEventListener('submit', e => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.innerText = 'Memproses Transaksi...';
+    
+    const formData = new FormData(form);
+    const data = new URLSearchParams();
+    for (const pair of formData) {
+        data.append(pair[0], pair[1]);
+    }
+
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: data
+    })
+    .then(response => response.json())
+    .then(result => {
+        if(result.result === "success") {
+            statusMsg.className = 'status-success';
+            statusMsg.innerText = '✅ Transaksi berhasil direkam untuk ' + inputNamaKub.value;
+            
+            // Reset form tapi pertahankan nama KUB dan tanggal hari ini
+            const currentKub = inputNamaKub.value;
+            form.reset();
+            document.getElementById('tanggal').valueAsDate = new Date();
+            inputNamaKub.value = currentKub; 
+
+            // TARIK DATA ULANG setelah transaksi berhasil agar saldo otomatis ter-update!
+            fetchDataDariSpreadsheet();
+            
+        } else {
+            throw new Error("Gagal menyimpan");
+        }
+    })
+    .catch(error => {
+        statusMsg.className = 'status-error';
+        statusMsg.innerText = '❌ Terjadi kesalahan pengiriman. Pastikan URL Script benar.';
+    })
+    .finally(() => {
+        statusMsg.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Rekam Transaksi ke Database';
+        setTimeout(() => { statusMsg.style.display = 'none'; }, 5000);
+    });
+});
     </script>
 </body>
 </html>
