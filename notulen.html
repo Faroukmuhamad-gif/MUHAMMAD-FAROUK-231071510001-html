@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIM Perikanan - Administrasi & Evaluasi KUB</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #f4f7f6;
+      --card: #ffffff;
+      --primary: #1abc9c;
+      --primary-dark: #16a085;
+      --sidebar: #2c3e50;
+      --text: #2d3436;
+      --orange: #e67e22;
+      --blue: #3498db;
+      --shadow: 0 10px 30px rgba(0,0,0,.06);
+      --radius: 18px;
+    }
+
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 30px 20px;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    /* KONTANER MENU NAVIGASI */
+    .menu-navigation {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 35px;
+    }
+
+    /* Tombol Utama: Kembali Ke Home */
+    .back-to-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 28px;
+      color: #cbd5e1;
+      text-decoration: none;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, var(--sidebar) 0%, #233140 100%);
+      box-shadow: var(--shadow);
+      width: fit-content;
+    }
+
+    .back-to-home:hover {
+      background: #1a252f;
+      color: #ffffff;
+      transform: translateX(-4px);
+    }
+
+    /* Group Tombol Pintas Form */
+    .shortcut-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Tombol Pintas Form */
+    .btn-shortcut {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-shortcut.notulen { background: linear-gradient(135deg, var(--blue) 0%, #2980b9 100%); }
+    .btn-shortcut.kepuasan { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); }
+
+    .btn-shortcut:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    /* KONTANER BOX UTAMA */
+    .content-box {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 35px;
+      border: 1px solid rgba(0,0,0,0.02);
+    }
+
+    .content-box h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #1f2d3d;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 12px;
+    }
+
+    /* Pengaturan Frame Google Form */
+    .form-iframe {
+      width: 100%;
+      height: 800px;
+      border: none;
+      border-radius: 12px;
+    }
+
+    /* Pengaturan Frame Google Sheets Responsif */
+    .sheet-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 55%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid #e9edf2;
+    }
+
+    .sheet-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Sinkronisasi Responsif Layar Smartphone */
+    @media (max-width: 768px) {
+      body { padding: 15px 10px; }
+      .form-iframe { height: 1100px; }
+      .sheet-container { padding-bottom: 130%; }
+      .back-to-home, .shortcut-group, .btn-shortcut { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <div class="menu-navigation">
+      <a href="index.html" class="back-to-home">
+        <i class="fa-solid fa-house"></i> Kembali ke Halaman Utama KUB
+      </a>
+      
+      <div class="shortcut-group">
+        <a href="#section-form-notulen" class="btn-shortcut notulen">
+          <i class="fa-solid fa-file-pen"></i> Lompat ke Form Pencatatan Notulensi
+        </a>
+        <a href="#section-form-kepuasan" class="btn-shortcut kepuasan">
+          <i class="fa-solid fa-square-poll-vertical"></i> Lompat ke Form Kepuasan Sistem
+        </a>
+      </div>
+    </div>
+
+
+    <div class="content-box" id="section-form-notulen">
+      <h3><i class="fa-solid fa-folder-plus" style="color: var(--blue);"></i> Form Utama: Input Pencatatan Notulensi Rapat</h3>
+      <iframe class="form-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSc-N4DoT2gUJyhBPuUd13c__iSqusGCd7WX3VSFFTWH34-CPA/viewform?embedded=true">
+        Memuat Formulir Notulensi…
+      </iframe>
+    </div>
+
+
+    <div class="content-box">
+      <h3><i class="fa-solid fa-clipboard-list" style="color: var(--blue);"></i> Tampilan Sheet: Riwayat & Data Notulensi Rapat</h3>
+      <div class="sheet-container">
+        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSRooDVs0qjc8Dv0O106SuSUbmmTJdgucJu9LZOhqeobvmPuhRMMMuSf5C7ByqJEZE-mBY2m1QIgNhI/pubhtml?gid=841476578&single=true&chrome=false&headers=false&rm=minimal">
+          Memuat Database Notulensi…
+        </iframe>
+      </div>
+    </div>
+
+
+    <div class="content-box" id="section-form-kepuasan">
+      <h3><i class="fa-solid fa-user-check" style="color: var(--primary);"></i> Form: Evaluasi Tingkat Kepuasan Sistem Informasi</h3>
+     <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe26uMFEFUv0v2gYpKeUYXUSGZ7Tt6KPZp_Bi8cLcVCfqBmSQ/viewform?embedded=true" width="640" height="1292" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        Memuat Formulir Evaluasi Kepuasan…
+      </iframe>
+    </div>
+
+
+    <div class="content-box">
+      <h3><i class="fa-solid fa-chart-pie" style="color: var(--orange);"></i> Tampilan Analisis: Matriks Kalkulasi Metode PIECES</h3>
+      <div class="sheet-container">
+        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTzw2QiwsG3MBItALGIBPx4PWKqBhDO4IlY4yKG9WQGBNjgk7oYfn000tM--VIa-jrCUtVSQstpjmOu/pubhtml?gid=1112788756&single=true&chrome=false&headers=false&rm=minimal">
+          Memuat Matriks Komputasi PIECES…
+        </iframe>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
