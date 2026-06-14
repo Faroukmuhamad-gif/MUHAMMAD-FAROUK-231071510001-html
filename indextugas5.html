@@ -85,14 +85,40 @@
 
         .content-header {
             background-color: #fff;
-            padding: 18px 24px;
+            padding: 15px 24px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .content-header h1 {
             font-size: 1.4rem;
             color: #1e293b;
+        }
+
+        /* Gaya Tombol Kembali ke Beranda */
+        .btn-beranda {
+            text-decoration: none;
+            background-color: #ef4444; /* Warna merah elegan */
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-beranda:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-beranda:active {
+            transform: scale(0.98);
         }
 
         .iframe-container {
@@ -139,11 +165,22 @@
             .sidebar-footer {
                 display: none;
             }
+            .content-header {
+                padding: 12px 15px;
+            }
+            .content-header h1 {
+                font-size: 1.1rem;
+            }
+            .btn-beranda {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- SIDEBAR NAVIGASI -->
     <nav class="sidebar">
         <div class="sidebar-header">
             Sistem Data Portal
@@ -158,20 +195,29 @@
         </div>
     </nav>
 
+    <!-- AREA KONTEN UTAMA -->
     <main class="main-content">
         <div class="content-header">
             <h1 id="header-title">Input Data (Google Form)</h1>
+            <!-- TOMBOL KEMBALI KE BERANDA -->
+            <a href="index.html" class="btn-beranda">
+                🏠 Kembali ke Beranda
+            </a>
         </div>
         
         <div class="iframe-container">
+            <!-- IFRAME GOOGLE FORM -->
             <iframe id="gform" class="page-content active" src="https://docs.google.com/forms/d/e/1FAIpQLSd_P1Ym5KApQesywuHdpDvLuFN2jkByyFPyQyTfqw2-3rwP3A/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Memuat...</iframe>
 
+            <!-- IFRAME SPREADSHEET -->
             <iframe id="spreadsheet" class="page-content" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSGF9vIUvdPWsxrpiE_M_Ok9tU4o0Pss2i-zCvXkkCDC08rSCrnR23XORcMnLGeofOBHg_8NDvm6yV4/pubhtml?gid=365688235&amp;single=true&amp;widget=true&amp;headers=false" frameborder="0">Memuat...</iframe>
 
+            <!-- IFRAME LOOKER STUDIO -->
             <iframe id="looker" class="page-content" src="https://datastudio.google.com/embed/reporting/f7be2481-c11b-4e0f-94d3-0cb969ae04c7/page/page_12345" frameborder="0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">Memuat...</iframe>
         </div>
     </main>
 
+    <!-- JAVASCRIPT UNTUK MENU INTERAKTIF -->
     <script>
         function switchPage(pageId, titleText) {
             // 1. Sembunyikan semua konten halaman
