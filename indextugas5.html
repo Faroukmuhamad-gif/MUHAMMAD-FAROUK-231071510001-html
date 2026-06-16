@@ -38,6 +38,7 @@
             background-color: #0f172a;
         }
 
+        /* Sub-Header untuk Pemisah Menu */
         .sidebar-subheader {
             padding: 12px 24px;
             font-size: 0.8rem;
@@ -52,7 +53,7 @@
             list-style: none;
             padding: 5px 0;
             flex-grow: 1;
-            overflow-y: auto;
+            overflow-y: auto; /* Agar bisa discroll jika menu bertambah */
         }
 
         .sidebar-item {
@@ -65,7 +66,7 @@
             font-size: 0.95rem;
             margin: 4px 12px;
             border-radius: 8px;
-            text-decoration: none;
+            text-decoration: none; /* Penting untuk tag <a> */
         }
 
         .sidebar-item:hover {
@@ -119,6 +120,7 @@
             color: #1e293b;
         }
 
+        /* Gaya Tombol Kembali ke Beranda */
         .btn-beranda {
             text-decoration: none;
             background-color: #ef4444;
@@ -159,13 +161,14 @@
             display: block;
         }
 
+        /* Pengaturan Responsif jika dibuka di HP */
         @media (max-width: 768px) {
             body { flex-direction: column; }
             .sidebar { width: 100%; height: auto; max-height: 50vh; }
             .sidebar-header { padding: 15px; }
             .sidebar-menu { display: flex; flex-wrap: wrap; justify-content: center; padding: 5px 0; }
             .sidebar-item { margin: 2px; padding: 8px 12px; font-size: 0.85rem; }
-            .sidebar-subheader { display: none; }
+            .sidebar-subheader { display: none; } /* Sembunyikan subheader di HP agar rapi */
             .sidebar-footer { display: none; }
             .content-header { padding: 12px 15px; }
             .content-header h1 { font-size: 1.1rem; }
@@ -188,16 +191,16 @@
 
             <div class="sidebar-subheader">Unduh Data (Excel)</div>
             
-            <a href="https://docs.google.com/spreadsheets/d/13ycFdnni5fU8yhMcQujwHgnXZ_YSMpnh6vyezAnepsk/export?format=xlsx&gid=1236351792" target="_blank" download class="sidebar-item download-btn">
+            <a href="https://docs.google.com/spreadsheets/d/13ycFdnni5fU8yhMcQujwHgnXZ_YSMpnh6vyezAnepsk/edit?gid=1236351792#gid=1236351792" class="sidebar-item download-btn">
                 📥 Sumber Makmur
             </a>
-            <a href="https://docs.google.com/spreadsheets/d/13ycFdnni5fU8yhMcQujwHgnXZ_YSMpnh6vyezAnepsk/export?format=xlsx&gid=2114814254" target="_blank" download class="sidebar-item download-btn">
+            <a href="https://docs.google.com/spreadsheets/d/13ycFdnni5fU8yhMcQujwHgnXZ_YSMpnh6vyezAnepsk/edit?gid=2114814254#gid=2114814254" class="sidebar-item download-btn">
                 📥 Angsa Laut
             </a>
-            <a href="https://docs.google.com/spreadsheets/d/13ycFdnni5fU8yhMcQujwHgnXZ_YSMpnh6vyezAnepsk/export?format=xlsx&gid=1230727170" target="_blank" download class="sidebar-item download-btn">
+            <a href="https://docs.google.com/spreadsheets/d/13ycFdnni5fU8yhMcQujwHgnXZ_YSMpnh6vyezAnepsk/edit?gid=1230727170#gid=1230727170" class="sidebar-item download-btn">
                 📥 Intimung Taka
             </a>
-            <a href="https://docs.google.com/spreadsheets/d/13ycFdnni5fU8yhMcQujwHgnXZ_YSMpnh6vyezAnepsk/export?format=xlsx&gid=181832370" target="_blank" download class="sidebar-item download-btn">
+            <a href="https://docs.google.com/spreadsheets/d/13ycFdnni5fU8yhMcQujwHgnXZ_YSMpnh6vyezAnepsk/edit?gid=181832370#gid=181832370" class="sidebar-item download-btn">
                 📥 Usaha Nelayan
             </a>
         </ul>
@@ -229,6 +232,7 @@
                 content.classList.remove('active');
             });
 
+            // Hanya hapus status active dari menu utama, abaikan tombol unduh
             const menuItems = document.querySelectorAll('.sidebar-item:not(.download-btn)');
             menuItems.forEach(item => {
                 item.classList.remove('active');
